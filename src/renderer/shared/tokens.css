@@ -1,0 +1,79 @@
+/* Design tokens shared by the buddy and the panel. The theme follows nativeTheme.themeSource
+   (the "Theme" setting), which controls prefers-color-scheme in Electron. */
+:root {
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+
+  --accent: #5B5BD6;
+  --accent-strong: #4646B8;
+  --accent-soft: #EEEEFB;
+  --accent-text: #3A3A9E;
+  /* filled buttons (white text on them): their own tokens, so the dark theme keeps AA contrast (F5) */
+  --accent-btn: #5B5BD6;        /* white on it: 5.37:1 */
+  --accent-btn-hover: #4646B8;  /* 7.42:1 */
+  --danger-btn: #C0343F;        /* 5.52:1 */
+  --danger-btn-hover: #A82C36;  /* 6.82:1 */
+  --on-accent: #FFFFFF;
+  /* Portfolio: purple, to tell it apart from the course version (turquoise → indigo) */
+  --buddy-a: #B38CFF;
+  --buddy-b: #7A3FE0;
+
+  --bg: #F6F6F9;
+  --surface: #FFFFFF;
+  --surface-2: #F0F0F5;
+  --surface-hover: #E9E9F2;
+  --border: #E1E1EA;
+  --border-strong: #8A8A98;     /* inputs and outline buttons: ≥ 3:1 on white and on --bg (r2 F-L7) */
+  --text: #16161D;
+  --text-2: #4A4A57;
+  --muted: #62626E;             /* ≥ 4.5:1 also on hover surfaces and the tinted tab bar */
+  --danger: #C0343F;
+  --danger-soft: #FDECEE;
+  --success: #187244;
+  --success-soft: #E7F6EE;
+  --warn-soft: #FFF6E0;
+  --warn-text: #7A5200;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-panel: 0 12px 32px rgba(20, 20, 40, .22), 0 2px 6px rgba(20, 20, 40, .10);
+  --shadow-sm: 0 1px 2px rgba(20, 20, 40, .06), 0 1px 1px rgba(20, 20, 40, .04);
+  --shadow-lift: 0 4px 12px rgba(40, 40, 110, .12);
+  --focus: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #8B8BF0;
+    --accent-strong: #A5A5F7;
+    --accent-soft: #2A2A45;
+    --accent-text: #C4C4FB;
+    /* the light #8B8BF0 / #FF7A84 stay for text and outlines; filled buttons use darker fills (F5) */
+    --accent-btn: #5B5BD6;
+    --accent-btn-hover: #4646B8;
+    --danger-btn: #C0343F;
+    --danger-btn-hover: #A82C36;
+    --bg: #17171D;
+    --surface: #1F1F27;
+    --surface-2: #272731;
+    --surface-hover: #2F2F3B;
+    --border: #34343F;
+    --border-strong: #75758A;   /* 3.64:1 on --surface */
+    --text: #EDEDF3;
+    --text-2: #C2C2CE;
+    --muted: #9A9AA8;
+    --danger: #FF7A84;
+    --danger-soft: #3A1E22;
+    --success: #5ED39A;
+    --success-soft: #1B3328;
+    --warn-soft: #3A2F16;
+    --warn-text: #F2C66B;
+    --shadow-panel: 0 12px 32px rgba(0, 0, 0, .55), 0 2px 6px rgba(0, 0, 0, .35);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .3);
+    --shadow-lift: 0 4px 14px rgba(0, 0, 0, .45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

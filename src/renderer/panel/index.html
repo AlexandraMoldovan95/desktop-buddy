@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: buddy-media:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Desktop Buddy</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/buddy-look.css">
+<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+<div class="panel" id="panel">
+  <header class="panel-head">
+    <span class="brand"><span class="brand-avatar" aria-hidden="true"><svg viewBox="0 0 64 64"><ellipse cx="23" cy="28" rx="4.6" ry="6"/><ellipse cx="41" cy="28" rx="4.6" ry="6"/><path d="M22 40 Q32 48 42 40" fill="none" stroke-width="4" stroke-linecap="round"/></svg></span>Desktop Buddy <span class="edition adv">Portfolio</span></span>
+    <button class="lvl-pill" id="lvlPill" type="button" hidden></button>
+    <button class="icon-btn" id="closeBtn" type="button" aria-label="Close the panel (Esc)" title="Close (Esc)" data-icon="close"></button>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" id="tab-clipboard" aria-controls="view-clipboard" data-tab="clipboard" data-icon="clipboard"><span>Copied</span></button>
+    <button role="tab" id="tab-notes" aria-controls="view-notes" data-tab="notes" data-icon="note"><span>Notes</span></button>
+    <button role="tab" id="tab-pictures" aria-controls="view-pictures" data-tab="pictures" data-icon="image"><span>Pictures</span></button>
+    <button role="tab" id="tab-video" aria-controls="view-video" data-tab="video" data-icon="video"><span>Video</span></button>
+    <button role="tab" id="tab-session" aria-controls="view-session" data-tab="session" data-icon="clock"><span>Time</span></button>
+    <button role="tab" id="tab-settings" aria-controls="view-settings" data-tab="settings" data-icon="gear"><span>Settings</span></button>
+  </nav>
+
+  <main class="views">
+    <!-- ======================================== CLIPBOARD -->
+    <section class="view" id="view-clipboard" role="tabpanel" aria-labelledby="tab-clipboard" hidden>
+      <div class="toolbar">
+        <label class="search">
+          <span class="visually-hidden">Search copied items</span>
+          <span class="search-icon" data-icon="search" aria-hidden="true"></span>
+          <input type="search" spellcheck="false" id="clipSearch" placeholder="Search copied items" autocomplete="off">
+        </label>
+        <button class="chip-toggle" id="clipToggle" type="button" aria-pressed="true"></button>
+      </div>
+      <ul class="list" id="clipList" aria-label="Copied items"></ul>
+      <div class="empty" id="clipEmpty" hidden></div>
+      <footer class="view-foot">
+        <span class="muted" id="clipCount"></span>
+        <span class="foot-actions" id="clipFootActions"></span>
+      </footer>
+    </section>
+
+    <!-- ======================================== NOTES -->
+    <section class="view" id="view-notes" role="tabpanel" aria-labelledby="tab-notes" hidden>
+      <div class="notes-list-view" id="notesListView">
+        <div class="toolbar">
+          <label class="search">
+            <span class="visually-hidden">Search notes</span>
+            <span class="search-icon" data-icon="search" aria-hidden="true"></span>
+            <input type="search" spellcheck="false" id="notesSearch" placeholder="Search notes" autocomplete="off">
+          </label>
+          <button class="btn btn-primary" id="noteNew" type="button" data-icon="plus"><span>New note</span></button>
+        </div>
+        <div class="remind-banner" id="remindBanner" role="status" hidden></div>
+        <ul class="list" id="notesList" aria-label="Notes"></ul>
+        <div class="empty" id="notesEmpty" hidden></div>
+      </div>
+      <div class="note-editor" id="noteEditor" hidden>
+        <div class="editor-bar">
+          <button class="btn btn-ghost" id="noteBack" type="button" data-icon="back"><span>Notes</span></button>
+          <span class="foot-actions" id="noteCheck"></span>
+          <span class="foot-actions" id="noteRemind"></span>
+          <span class="foot-actions adv" id="noteTools"></span>
+          <span class="foot-actions adv" id="noteMail"></span>
+          <span class="bar-gap"></span>
+          <span class="foot-actions" id="noteActions"></span>
+          <button class="btn btn-ghost btn-sm bar-btn more-btn simple-only" id="noteMore" type="button" aria-expanded="false" title="More: text tools, email, word count">More</button>
+        </div>
+        <div class="note-mail" id="noteMailBox" hidden></div>
+        <div class="note-tools" id="noteToolsBox" hidden></div>
+        <div class="note-tools note-remind" id="noteRemindBox" hidden></div>
+        <div class="remind-line" id="remindLine" hidden></div>
+        <div class="note-proposal" id="noteProposal" hidden>
+          <div class="proposal-bar">
+            <span class="proposal-title" id="proposalTitle">Clean-up</span>
+            <button class="btn btn-ghost" id="proposalReject" type="button">Cancel</button>
+            <button class="btn btn-primary" id="proposalAccept" type="button" data-icon="check"><span>Accept</span></button>
+          </div>
+          <div class="proposal-rules" id="proposalRules"></div>
+          <div class="note-diff" id="noteDiff" tabindex="0" aria-label="What changes: red = removed, green = added"></div>
+        </div>
+        <label class="visually-hidden" for="noteBody">Note text</label>
+        <div class="note-body-wrap" id="noteBodyWrap">
+          <div class="note-backdrop" id="noteBackdrop" aria-hidden="true"></div>
+          <textarea id="noteBody" spellcheck="false" placeholder="Write here… The first line becomes the title."></textarea>
+        </div>
+        <div class="note-stats" id="noteStats" aria-live="off"><span class="save-state" id="noteState" aria-live="polite"></span></div>
+      </div>
+    </section>
+
+    <!-- ======================================== PICTURES (screenshots) -->
+    <section class="view" id="view-pictures" role="tabpanel" aria-labelledby="tab-pictures" hidden>
+      <div class="session-scroll" id="picturesRoot"></div>
+    </section>
+
+    <!-- ======================================== TIME (sessions) -->
+    <section class="view" id="view-session" role="tabpanel" aria-labelledby="tab-session" hidden>
+      <div class="session-scroll" id="sessionRoot"></div>
+    </section>
+
+    <!-- ======================================== VIDEO (window recording) -->
+    <section class="view" id="view-video" role="tabpanel" aria-labelledby="tab-video" hidden>
+      <div class="session-scroll" id="videoRoot"></div>
+    </section>
+
+    <!-- ======================================== SETTINGS -->
+    <section class="view" id="view-settings" role="tabpanel" aria-labelledby="tab-settings" hidden>
+      <div class="settings" id="settings"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="tour" id="tour" hidden></div>
+</div>
+
+<script src="../shared/ui.js"></script>
+<script src="../../shared/buddy-shapes.js"></script>
+<script src="../../shared/buddy-look.js"></script>
+<script src="../../shared/text-tools.js"></script>
+<script src="../../shared/progression.js"></script>
+<script src="../../shared/checklist.js"></script>
+<script src="../../shared/reminder-time.js"></script>
+<script src="../shared/text-diff.js"></script>
+<script src="tabs/clipboard.js"></script>
+<script src="tabs/notes.js"></script>
+<script src="tabs/session.js"></script>
+<script src="tabs/video.js"></script>
+<script src="tabs/pictures.js"></script>
+<script src="tabs/settings.js"></script>
+<script src="../../shared/tour-steps.js"></script>
+<script src="tour.js"></script>
+<script src="panel.js"></script>
+</body>
+</html>

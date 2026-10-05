@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: buddy-media:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Picture – Desktop Buddy</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="view.css">
+</head>
+<body>
+<!-- Large screenshot (1.10.0) + annotations (1.11.0).
+     Zoom: Ctrl+wheel (towards the mouse), + / − / 0 = fit / 1 = 100 %, up to 800 %. Pan: drag (or Space + drag / middle click while annotating).
+     Annotations don't change the original: "Save copy" writes "<name> - annotated.png", and the annotations stay editable. -->
+<header class="v-bar">
+  <div class="v-text"><span class="v-name" id="name"></span><span class="v-meta" id="meta"></span></div>
+  <!-- 1.14.0: on an annotated screenshot, switch between the copy and the untouched original -->
+  <div class="v-seg adv" id="pairSeg" role="group" aria-label="Which picture" hidden>
+    <button type="button" id="pairCopy" data-icon="pen" title="The picture with your drawing"><span>With drawing</span></button>
+    <button type="button" id="pairOrig" data-icon="image" title="The clean picture, untouched"><span>Clean picture</span></button>
+  </div>
+  <!-- simple mode: one small link instead of the switch above -->
+  <button class="v-link simple-only" id="pairLink" type="button" hidden></button>
+  <div class="v-zoom" role="group" aria-label="Zoom">
+    <button class="v-ibtn" id="zoomOut" type="button" data-icon="minus" title="Zoom out (−)" aria-label="Zoom out"></button>
+    <button class="v-zlabel" id="zoomLabel" type="button" title="Fit / 100 % (0 / 1)">100 %</button>
+    <button class="v-ibtn" id="zoomIn" type="button" data-icon="plus" title="Zoom in (+ or Ctrl+wheel)" aria-label="Zoom in"></button>
+  </div>
+  <!-- annotation mode only (1.13.0: moved here so the toolbar fits on one row) -->
+  <span class="a-status" id="status" role="status"></span>
+  <button class="v-btn primary adv" id="saveBtn" type="button" data-icon="save" title="Saves the picture with your drawing next to the clean one (Ctrl+S)"><span>Save copy</span></button>
+  <button class="v-btn" id="annotBtn" type="button" data-icon="pen" title="Draw arrows, boxes or text on the picture" aria-pressed="false"><span>Draw on it</span></button>
+  <button class="v-btn" id="copyBtn" type="button" data-icon="copy" title="Copy the picture, then paste it with Ctrl+V in a chat or email (Ctrl+C)"><span>Copy to send</span></button>
+  <button class="v-btn adv" id="folderBtn" type="button" data-icon="folder" title="Show in folder"><span>Folder</span></button>
+  <button class="v-btn danger" id="trashBtn" type="button" data-icon="trash" title="Delete the picture (to the Recycle Bin)"><span>Delete picture</span></button>
+  <button class="v-btn v-more" id="barMore" type="button" aria-expanded="false" title="More: folder, delete, the clean picture">More</button>
+</header>
+<div class="a-bar" id="abar" hidden>
+  <div class="a-group" id="tools" role="toolbar" aria-label="Tools"></div>
+  <span class="a-sep"></span>
+  <div class="a-group" id="colors" role="group" aria-label="Color"></div>
+  <div class="a-group" id="sizes" role="group" aria-label="Size"></div>
+  <span class="a-sep"></span>
+  <button class="v-btn small" id="undoBtn" type="button" data-icon="undo" title="Undo the last change (Ctrl+Z)"><span>Undo</span></button>
+  <button class="v-ibtn adv" id="redoBtn" type="button" data-icon="redo" title="Redo (Ctrl+Y)" aria-label="Redo"></button>
+  <button class="v-btn small adv" id="delBtn" type="button" data-icon="close" title="Delete the selected drawing (Delete). Select it with a click (Select tool) or right-click it."><span class="full-only">Delete selected</span><span class="simple-only">Remove drawing</span></button>
+  <button class="v-btn small" id="cropClear" type="button" hidden>Remove crop</button>
+  <button class="v-btn small v-more" id="toolsMore" type="button" aria-expanded="false" title="More tools, colors and actions">More</button>
+</div>
+<main class="v-stage" id="stage">
+  <div class="v-sizer" id="sizer"><div class="v-layer" id="layer"><canvas id="cv"></canvas></div></div>
+</main>
+<div class="a-hint" id="hint" hidden></div>
+<!-- the right-click menu on an annotation (1.13.0): built in view.js -->
+<div class="a-menu" id="menu" role="menu" hidden></div>
+<div class="v-leave" id="leave" hidden role="alertdialog" aria-labelledby="leaveText">
+  <span id="leaveText">Save the picture with your drawing? (You can change the drawing later anyway.)</span>
+  <button class="v-btn primary" id="leaveSave" type="button">Yes, save</button>
+  <button class="v-btn" id="leaveGo" type="button">Not now</button>
+  <button class="v-btn" id="leaveStay" type="button">Keep drawing</button>
+</div>
+<!-- 1.14.0: deleting a screenshot that has a pair (original / annotated copy): choose what goes -->
+<div class="v-leave" id="trashAsk" hidden role="alertdialog" aria-labelledby="trashText">
+  <span id="trashText"></span>
+  <button class="v-btn" id="trashOne" type="button"></button>
+  <button class="v-btn danger-fill" id="trashBoth" type="button"></button>
+  <button class="v-btn" id="trashCancel" type="button">Cancel</button>
+</div>
+<div class="v-err" id="err" hidden></div>
+<script src="../shared/ui.js"></script>
+<script src="../../shared/annotations.js"></script>
+<script src="annot-render.js"></script>
+<script src="view.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+node_modules
+dist/
+*.log
+recordings/
+CLAUDE.md
+.claude/
+AUDIT-NEXT.md
+PUBLISH-AND-PORTFOLIO.md
+_archive/
+_demo-data/
+site/
+docs/media/_new/
+
+# OS / editor junk
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,58 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: transparent; user-select: none; }
+body { padding: 8px; font: 14px/1.2 var(--font); color: var(--text); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: none; box-shadow: var(--focus); }
+
+.bar {
+  height: 100%;
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 8px 0 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(20, 20, 40, .22);
+  cursor: grab;
+}
+.bar.dragging { cursor: grabbing; }
+
+.state-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; background: var(--muted); }
+.bar[data-state="running"] .state-dot { background: var(--success); box-shadow: 0 0 0 4px var(--success-soft); }
+.bar[data-state="paused"] .state-dot { background: #D99A1E; box-shadow: 0 0 0 4px var(--warn-soft); }
+/* the pulse: a ring that scales / fades (composited); animating box-shadow repainted every frame (H1) */
+.state-dot { position: relative; }
+.bar[data-state="running"] .state-dot::after {
+  content: ""; position: absolute; inset: -6px; border-radius: 50%; background: var(--success-soft);
+  opacity: 0; animation: pulse 2s ease-in-out infinite; will-change: transform, opacity;
+}
+.bar.calm .state-dot::after { animation: none; }
+@keyframes pulse { 0%, 100% { opacity: 0; transform: scale(.7); } 50% { opacity: 1; transform: scale(1); } }
+
+.info { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.title-row { display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 28px; }
+.title {
+  min-width: 0; max-width: 100%; height: 28px; padding: 0 4px; margin-left: -4px; border: 0; border-radius: 6px; background: transparent; cursor: text;
+  font-size: 12px; font-weight: 600; color: var(--text-2);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;
+}
+.title:hover { color: var(--text); text-decoration: underline dotted; }
+.title-input {
+  width: 100%; height: 28px; padding: 0 6px; font-size: 12px; font-weight: 600;
+  border: 1px solid var(--accent); border-radius: 6px; background: var(--surface); color: var(--text);
+}
+.tag { flex: none; font-size: 10.5px; font-weight: 700; padding: 1px 6px; border-radius: 999px; background: var(--warn-soft); color: var(--warn-text); }
+.time { font: 700 22px/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.bar[data-state="paused"] .time { color: var(--muted); }
+
+.actions { display: flex; gap: 2px; flex: none; }
+.tbtn {
+  width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: var(--text-2);
+  display: inline-grid; place-items: center; cursor: pointer;
+}
+.tbtn:hover { background: var(--surface-hover); color: var(--text); }
+#toggle { background: var(--accent-soft); color: var(--accent-text); }
+#toggle:hover { background: var(--accent-btn, var(--accent)); color: #fff; }
+#stop.confirm { background: var(--danger-btn, var(--danger)); color: #fff; width: auto; padding: 0 8px; font-size: 12px; font-weight: 700; }
+
+/* simple mode (UX pass): opacity and hide are left out (both exist elsewhere); no "More" here, the window is too small */
+body.simple .adv { display: none !important; }

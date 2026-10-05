@@ -1,0 +1,251 @@
+/* The buddy and its animations. The window has 14 transparent px on each side (hand, Zzz, jump).
+   Lasting states: .st-sleep, .st-think.  One-shot animations: .do-wave, .do-happy, .do-wow, .do-yawn, .do-levelup.
+   Always: breathing, blinking (.blink), eyes follow the mouse (--lx / --ly), surprised face while dragged (.dragging). */
+html, body {
+  margin: 0; height: 100%; overflow: hidden;
+  background: transparent; user-select: none;
+}
+
+.stage {
+  --pad: 14px;
+  --d: calc(100vmin - 28px);          /* the buddy's diameter */
+  --lx: 0px; --ly: 0px;               /* where the eyes look */
+  position: relative; width: 100vw; height: 100vh;
+}
+
+/* ------------------------------------------------ the body */
+.bob { position: absolute; left: var(--pad); top: var(--pad); width: var(--d); height: var(--d); }
+.buddy {
+  width: 100%; height: 100%;
+  cursor: grab;   /* the look (gradient, shadows, face) is in ../shared/buddy-look.css */
+  transition: transform .18s cubic-bezier(.3, 1.6, .5, 1);
+}
+/* one breath now and then, started from buddy.js (an infinite animation kept the GPU busy all day, H1) */
+.stage.breath .buddy { animation: breathe 4s ease-in-out; }
+.buddy:hover { transform: scale(1.06); animation-play-state: paused; }
+.stage.dragging .buddy { cursor: grabbing; transform: scale(1.08); animation: none; }
+.buddy.pressed { transform: scale(.94); }
+
+.ground {
+  position: absolute; left: calc(var(--pad) + var(--d) * .18); width: calc(var(--d) * .64);
+  top: calc(var(--pad) + var(--d) * .95); height: calc(var(--d) * .1);
+  border-radius: 50%; background: radial-gradient(closest-side, rgba(10, 10, 40, .28), transparent);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------ the face (eye / mouth styles come from BuddyLook) */
+.look { transform: translate(var(--lx), var(--ly)); transition: transform .25s ease-out; }
+/* the white shine also slides inside the eyes, towards the mouse (on top of the eye movement), so the gaze reads clearly */
+.eyes-open .shine { transform: translate(calc(var(--lx) * .7), calc(var(--ly) * .7)); transition: transform .25s ease-out; }
+.stage.st-think .eyes-open .shine { transform: translate(1.6px, -1.5px); }
+.eyes-open { transform-origin: 32px 28px; transition: transform .07s; }
+.stage.blink .eyes-open { transform: scaleY(.08); }
+
+/* what shows in each state (default: open eyes + the chosen mouth) */
+.stage.do-happy .eyes-open, .stage.do-wave .eyes-open, .stage.do-levelup .eyes-open { display: none; }
+.stage.do-happy .eyes-happy, .stage.do-wave .eyes-happy, .stage.do-levelup .eyes-happy { display: inline; }
+.stage.do-happy .mouth-smile, .stage.do-levelup .mouth-smile { display: none; }
+.stage.do-happy .mouth-big, .stage.do-levelup .mouth-big { display: inline; }
+.stage.do-wow .eyes-open, .stage.dragging .eyes-open { display: none; }
+.stage.do-wow .eyes-wow, .stage.dragging .eyes-wow { display: inline; }
+.stage.do-wow .mouth-smile, .stage.dragging .mouth-smile { display: none; }
+.stage.do-wow .mouth-o, .stage.dragging .mouth-o { display: inline; }
+.stage.st-think .mouth-smile { display: none; }
+.stage.st-think .mouth-flat { display: inline; }
+.stage.st-think .look { transform: translate(2.4px, -2.6px); }
+.stage.st-sleep .eyes-open, .stage.st-sleep .eyes-wow, .stage.st-sleep .eyes-happy { display: none; }
+.stage.st-sleep .eyes-closed { display: inline; }
+.stage.st-sleep .mouth-smile { display: none; }
+.stage.st-sleep .mouth-o { display: inline; transform-origin: 32px 42.5px; transform: scale(.55); }
+.stage.st-sleep.snore .mouth-o { animation: snore 3.2s ease-in-out; }
+.stage.st-sleep .cheek { opacity: .35; }
+.stage.st-sleep .look { transform: none; }
+.stage.do-yawn .eyes-open, .stage.do-yawn .eyes-happy { display: none; }
+.stage.do-yawn .eyes-closed { display: inline; }
+.stage.do-yawn .mouth-smile { display: none; }
+.stage.do-yawn .mouth-o { display: inline; transform-origin: 32px 42.5px; animation: yawn 1.2s ease-in-out; }
+
+/* ------------------------------------------------ 1. waves */
+.hand {
+  position: absolute;
+  left: calc(var(--pad) + var(--d) * .67); top: calc(var(--pad) + var(--d) * .38);
+  width: calc(var(--d) * .4); height: calc(var(--d) * .4);
+  transform-origin: 30% 92%;
+  transform: scale(0);
+  pointer-events: none;
+}
+.hand path { fill: url(#handFill); stroke: rgba(10, 10, 50, .3); stroke-width: .9; }
+.hand .hand-a { stop-color: var(--buddy-a); }
+.hand .hand-b { stop-color: var(--buddy-b); }
+.stage.do-wave .hand { animation: wave 1.6s ease-in-out; }
+.stage.do-wave .bob { animation: lean 1.6s ease-in-out; }
+
+/* ------------------------------------------------ 2. happy (session, hour, email, AI done) */
+.stage.do-happy .bob { animation: jump .9s cubic-bezier(.3, .7, .4, 1); }
+.stage.do-happy .ground { animation: ground .9s cubic-bezier(.3, .7, .4, 1); }
+.sparkles i {
+  position: absolute; width: calc(var(--d) * .14); height: calc(var(--d) * .14);
+  background: #FFD34D; opacity: 0; transform: scale(0);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+}
+.sparkles i:nth-child(1) { left: calc(var(--pad) - 6px); top: calc(var(--pad) + var(--d) * .08); }
+.sparkles i:nth-child(2) { left: calc(var(--pad) + var(--d) * .86); top: calc(var(--pad) - 8px); background: #FF9DC0; }
+.sparkles i:nth-child(3) { left: calc(var(--pad) + var(--d) * .96); top: calc(var(--pad) + var(--d) * .52); width: calc(var(--d) * .1); height: calc(var(--d) * .1); }
+.stage.do-happy .sparkles i { animation: sparkle .9s ease-out; }
+.stage.do-happy .sparkles i:nth-child(2) { animation-delay: .12s; }
+.stage.do-happy .sparkles i:nth-child(3) { animation-delay: .24s; }
+
+/* ------------------------------------------------ new level ("growing buddy"): jumps twice, golden ring, sparkles */
+.burst { position: absolute; left: var(--pad); top: var(--pad); width: var(--d); height: var(--d); border-radius: 50%; box-sizing: border-box; border: 3px solid #FFD34D; opacity: 0; pointer-events: none; }
+.stage.do-levelup .bob { animation: jump .9s cubic-bezier(.3, .7, .4, 1) 2; }
+.stage.do-levelup .ground { animation: ground .9s cubic-bezier(.3, .7, .4, 1) 2; }
+.stage.do-levelup .burst { animation: burst .9s ease-out 2; }
+.stage.do-levelup .sparkles i { animation: sparkle .9s ease-out 2; }
+.stage.do-levelup .sparkles i:nth-child(2) { animation-delay: .12s; }
+.stage.do-levelup .sparkles i:nth-child(3) { animation-delay: .24s; }
+@keyframes burst { 0% { opacity: .95; transform: scale(.9); } 100% { opacity: 0; transform: scale(1.3); } }
+
+/* ------------------------------------------------ 3. wow (you copied something) */
+.stage.do-wow .bob { animation: wow .7s cubic-bezier(.3, 1.8, .5, 1); }
+
+/* ------------------------------------------------ 4. thinking (the AI is working on a note) */
+.dots { position: absolute; left: calc(var(--pad) + var(--d) * .62); top: 2px; display: flex; gap: 2px; opacity: 0; transition: opacity .2s; }
+.dots i { width: calc(var(--d) * .08); height: calc(var(--d) * .08); min-width: 4px; min-height: 4px; border-radius: 50%; background: var(--buddy-b); box-shadow: 0 0 0 1.5px rgba(255,255,255,.85); }
+.stage.st-think .dots { opacity: 1; }
+.stage.st-think .dots i { animation: dot 1.1s ease-in-out infinite; }
+.stage.st-think .dots i:nth-child(2) { animation-delay: .15s; }
+.stage.st-think .dots i:nth-child(3) { animation-delay: .3s; }
+.stage.st-think .bob { animation: ponder 2.4s ease-in-out infinite; }
+
+/* ------------------------------------------------ 5. asleep (no session, you are away from the PC) */
+.zzz { position: absolute; left: calc(var(--pad) + var(--d) * .7); top: calc(var(--pad) - 4px); pointer-events: none; }
+.zzz span {
+  position: absolute; font: 800 calc(var(--d) * .2)/1 var(--font-display); color: var(--buddy-b);
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, .9); paint-order: stroke; opacity: 0;
+}
+/* asleep = a still pose; the Zzz float up only during an occasional snore (buddy.js), not all the time */
+.stage.st-sleep .zzz span:nth-child(2) { opacity: .9; transform: translate(4px, -4px) scale(.8); }
+.stage.st-sleep.snore .zzz span { animation: zzz 3s ease-out; }
+.stage.st-sleep.snore .zzz span:nth-child(2) { animation-delay: 1s; }
+.stage.st-sleep .zzz span:nth-child(3) { animation-delay: 2s; font-size: calc(var(--d) * .26); }
+.stage.st-sleep .buddy { filter: saturate(.8); }
+.stage.st-sleep.snore .buddy { animation: breathe 6s ease-in-out; }
+
+/* animations turned off in Settings (or Power saver): only blinking stays; no endless animation (H1) */
+.stage.calm .look { transform: none; }
+.stage.calm .buddy:not(.marked), .stage.calm .buddy *, .stage.calm .buddy.recording::after { animation: none; }
+
+@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.035); } }
+@keyframes wave {
+  0% { transform: scale(0) rotate(30deg); }
+  14% { transform: scale(1) rotate(-12deg); }
+  28% { transform: scale(1) rotate(24deg); }
+  42% { transform: scale(1) rotate(-12deg); }
+  56% { transform: scale(1) rotate(24deg); }
+  70% { transform: scale(1) rotate(-8deg); }
+  86% { transform: scale(1) rotate(10deg); }
+  100% { transform: scale(0) rotate(30deg); }
+}
+@keyframes lean { 0%, 100% { transform: rotate(0); } 20%, 80% { transform: rotate(-6deg); } }
+@keyframes jump {
+  0% { transform: translateY(0) scale(1, 1); }
+  18% { transform: translateY(0) scale(1.08, .9); }
+  45% { transform: translateY(-9px) scale(.95, 1.06); }
+  70% { transform: translateY(0) scale(1.06, .94); }
+  85% { transform: translateY(-2px) scale(.98, 1.02); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+@keyframes ground { 45% { transform: scale(.7); opacity: .5; } }
+@keyframes sparkle {
+  0% { opacity: 0; transform: scale(0) rotate(0); }
+  40% { opacity: 1; transform: scale(1.1) rotate(45deg); }
+  100% { opacity: 0; transform: scale(.4) rotate(90deg); }
+}
+@keyframes wow { 0% { transform: scale(1); } 35% { transform: scale(1.14) translateY(-3px); } 100% { transform: scale(1); } }
+@keyframes dot { 0%, 100% { transform: translateY(0); opacity: .5; } 40% { transform: translateY(-3px); opacity: 1; } }
+@keyframes ponder { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(5deg); } }
+@keyframes zzz {
+  0% { opacity: 0; transform: translate(0, 6px) scale(.6); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translate(10px, -14px) scale(1); }
+}
+@keyframes snore { 0%, 100% { transform: scale(.45); } 50% { transform: scale(.75); } }
+@keyframes yawn { 0% { transform: scale(.4); } 45% { transform: scale(1.35, 1.5); } 100% { transform: scale(.6); } }
+
+/* during a recording: a pulsing red dot, bottom right (Portfolio only) */
+.buddy.recording::after {
+  content: ""; position: absolute; right: 2%; bottom: 2%;
+  width: 26%; height: 26%; border-radius: 50%;
+  background: #E0243B; box-shadow: 0 0 0 2px #fff;
+  animation: recpulse 1.2s ease-in-out infinite;
+}
+@keyframes recpulse { 50% { opacity: .35; } }
+/* power saver: the dot stays, but still (no endless animation) */
+.stage.lowfx .buddy.recording::after { animation: none; }
+
+/* a new mark during a recording */
+.stage .buddy.marked { animation: markpop .7s ease-out; }
+@keyframes markpop {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, .95), 0 4px 10px rgba(20, 20, 60, .35); transform: scale(1.12); }
+  100% { box-shadow: 0 0 0 14px rgba(255, 255, 255, 0), 0 4px 10px rgba(20, 20, 60, .35); transform: scale(1); }
+}
+/* on the 1.9.0 shapes the body is an SVG with its own shadow: only the white ring, no round circle shadow */
+.buddy.shaped.marked { animation-name: markpop-shape; }
+@keyframes markpop-shape {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, .95); transform: scale(1.12); }
+  100% { box-shadow: 0 0 0 14px rgba(255, 255, 255, 0); transform: scale(1); }
+}
+/* power saver: one-shot reactions still play, endless effects (fx accessories) stand still */
+.stage.lowfx .bl-body [class*="fx-"], .stage.lowfx .bl-body [class*="fx-"] * { animation: none; }
+
+/* ------------------------------------------------ petting (.do-giggle + .pet-heart.show) */
+.stage.do-giggle .eyes-open { display: none; }
+.stage.do-giggle .eyes-happy { display: inline; }
+.stage.do-giggle .mouth-smile { display: none; }
+.stage.do-giggle .mouth-big { display: inline; }
+.stage.do-giggle .bob { animation: giggle .9s ease-in-out; }
+@keyframes giggle {
+  0%, 100% { transform: rotate(0) translateY(0); }
+  15% { transform: rotate(-7deg) translateY(-1px); }
+  30% { transform: rotate(6deg) translateY(0); }
+  45% { transform: rotate(-5deg) translateY(-1px); }
+  60% { transform: rotate(4deg) translateY(0); }
+  75% { transform: rotate(-2deg); }
+}
+/* the petting heart (not .heart: that class belongs to the heart / cat eyes drawn by buddy-look.js) sits by the top-right of the head, inside the window's transparent margin */
+.pet-heart {
+  position: absolute; pointer-events: none; opacity: 0;
+  width: max(12px, calc(var(--d) * .28)); height: max(12px, calc(var(--d) * .28));
+  left: calc(var(--pad) + var(--d) * .74); top: calc(var(--pad) - 2px);
+  fill: #FF5C8A; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .25));
+}
+.pet-heart.show { animation: heart-float 1.1s ease-out; }
+@keyframes heart-float {
+  0% { opacity: 0; transform: translateY(6px) scale(.5); }
+  25% { opacity: 1; transform: translateY(0) scale(1.1); }
+  60% { opacity: 1; transform: translateY(-5px) scale(1); }
+  100% { opacity: 0; transform: translateY(-11px) scale(.9); }
+}
+.stage.calm .pet-heart { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .stage.do-giggle .bob { animation: none; }
+  .pet-heart.show { animation: heart-fade 1.1s linear; }
+  @keyframes heart-fade { 0%, 100% { opacity: 0; } 20%, 70% { opacity: 1; } }
+}
+
+/* ------------------------------------------------ the "remember this moment" flag, bottom left, only while recording */
+.mark-flag {
+  display: none; position: absolute; padding: 0; margin: 0; cursor: pointer;
+  width: max(20px, calc(var(--d) * .36)); height: max(20px, calc(var(--d) * .36));
+  left: calc(var(--pad) - 8px); top: calc(var(--pad) + var(--d) * .6);
+  border: 2px solid #fff; border-radius: 50%; background: #2B2B3A;
+  box-shadow: 0 2px 6px rgba(20, 20, 60, .35);
+  align-items: center; justify-content: center;
+}
+.stage.rec-on .mark-flag { display: flex; }
+.mark-flag svg { width: 62%; height: 62%; fill: none; stroke: #FFD34D; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.mark-flag svg path:last-child { fill: #FFD34D; }
+.mark-flag:hover { background: #3C3C52; transform: scale(1.08); }
+.mark-flag:active { transform: scale(.94); }
+.mark-flag:focus-visible { outline: 2px solid #FFD34D; outline-offset: 2px; }
+.stage.dragging .mark-flag { display: none; }

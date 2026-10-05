@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Quick note – Desktop Buddy</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="quick.css">
+</head>
+<body>
+<!-- Quick note: type, Enter saves it as a new note, Esc cancels. Opens from a right-click on the buddy or from the tray. -->
+<main class="quick" id="quick">
+  <div class="q-head"><span class="q-title" id="qTitle">Quick note</span><span class="q-done" id="qDone" hidden>Saved</span></div>
+  <label class="visually-hidden" for="qText">Note text</label>
+  <textarea id="qText" spellcheck="false" maxlength="20000" placeholder="Write something…"></textarea>
+  <div class="q-foot"><span class="q-hint" title="Shift+Enter = new line"><kbd>Enter</kbd> saves · <kbd>Esc</kbd> throws it away</span>
+    <button class="q-save" id="qSave" type="button">Save</button></div>
+</main>
+<script src="quick.js"></script>
+</body>
+</html>

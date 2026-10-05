@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: buddy-media:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Picture ready – Desktop Buddy</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="card.css">
+</head>
+<body>
+<!-- The card after a capture (1.10.0): shows next to the buddy without taking focus and closes by itself after a few seconds
+     (not while the mouse is over it). Click the picture = open it large. -->
+<main class="card" id="card">
+  <div class="c-head" id="head">
+    <span class="c-title">Picture ready</span>
+    <!-- simple mode: these sit behind "More" -->
+    <div class="c-tools adv" id="tools">
+      <button class="c-x" id="openBtn" type="button" data-icon="expand" title="Open big" aria-label="Open big"></button>
+      <button class="c-x" id="folderBtn" type="button" data-icon="folder" title="Show in folder" aria-label="Show in folder"></button>
+      <button class="c-x danger" id="trashBtn" type="button" data-icon="trash" title="Delete (to the Recycle Bin)" aria-label="Delete (to the Recycle Bin)"></button>
+    </div>
+    <button class="c-more" id="moreBtn" type="button" aria-expanded="false" aria-controls="tools" title="More: open big, folder, delete">More</button>
+    <button class="c-x" id="closeBtn" type="button" data-icon="close" title="Close (Esc)" aria-label="Close"></button>
+  </div>
+  <button class="c-pic" id="pic" type="button" title="Open big" aria-label="Open the picture big"><img id="img" alt=""></button>
+  <div class="c-name" id="name"></div>
+  <div class="c-meta" id="meta" role="status"></div>
+  <div class="c-actions">
+    <button class="c-btn primary" id="copyBtn" type="button" data-icon="copy" title="Copies the picture. Then paste it with Ctrl+V in a chat or email."><span>Copy to send</span></button>
+    <button class="c-btn" id="annotBtn" type="button" data-icon="pen" title="Draw arrows, boxes or text on the picture"><span>Draw on it</span></button>
+  </div>
+  <div class="c-time" aria-hidden="true"><i id="timeBar"></i></div>
+</main>
+<script src="../shared/ui.js"></script>
+<script src="card.js"></script>
+</body>
+</html>

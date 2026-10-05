@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src buddy-media:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Clip – Desktop Buddy</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+<!-- One clip played in a loop, filling the window (for presentations / a portfolio). -->
+<video id="video" playsinline muted autoplay loop preload="auto"></video>
+<div class="bar" id="bar">
+  <span class="name" id="name"></span>
+  <button class="vbtn" id="playBtn" type="button" data-icon="pause" title="Pause / play (Space)" aria-label="Pause"></button>
+  <button class="vbtn on" id="loopBtn" type="button" data-icon="loop" title="Loop (L)" aria-label="Loop" aria-pressed="true"></button>
+  <button class="vbtn" id="fullBtn" type="button" data-icon="expand" title="Full screen (F or double-click)" aria-label="Full screen"></button>
+  <button class="vbtn" id="folderBtn" type="button" data-icon="folder" title="Show in folder" aria-label="Show in folder"></button>
+</div>
+<div class="err" id="err" hidden></div>
+<script src="../shared/ui.js"></script>
+<script src="viewer.js"></script>
+</body>
+</html>

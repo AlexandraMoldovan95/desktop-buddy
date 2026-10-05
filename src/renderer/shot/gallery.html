@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: buddy-media:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Pictures – Desktop Buddy</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+<!-- The gallery (1.12.0): all screenshots, one entry per picture (the annotated copy shows instead of the original, with ✎).
+     Click = the large view (Annotate is there). Ctrl+click = select. Drag a picture into another app = the file.
+     Drag pictures from the PC here = add them to the gallery (they are copied into the Screenshots folder). -->
+<header class="g-head">
+  <h1 class="g-title">Pictures <span class="g-count" id="count"></span></h1>
+  <div class="g-seg adv" role="group" aria-label="Show">
+    <button type="button" id="fAll" aria-pressed="true">All</button>
+    <button type="button" id="fAnnot" aria-pressed="false" data-icon="pen">With drawing</button>
+  </div>
+  <label class="g-search"><span class="visually-hidden">Search by name</span><input id="search" type="search" placeholder="Search by name… (Ctrl+F)" spellcheck="false" autocomplete="off"></label>
+  <button class="g-btn adv" type="button" id="addBtn" data-icon="plus" title="Pick pictures from your PC (or drag them into the window)">Add pictures from your PC</button>
+  <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" multiple hidden>
+  <button class="g-btn adv" type="button" id="folderBtn" data-icon="folder">Folder</button>
+  <button class="g-btn g-more" type="button" id="moreBtn" aria-expanded="false" title="More: filter, select several, add pictures, folder">More</button>
+</header>
+<div class="g-selbar" id="selbar" hidden>
+  <span id="selText"></span>
+  <button class="g-btn" type="button" id="selAll">Select all</button>
+  <button class="g-btn danger" type="button" id="selTrash" data-icon="trash">Move to Recycle Bin</button>
+  <!-- 1.14.0: when some of them are annotated, you choose whether the originals stay -->
+  <button class="g-btn" type="button" id="selTrashCopies" hidden>Delete, keep the clean pictures</button>
+  <button class="g-btn danger asking" type="button" id="selTrashAll" hidden>Delete all, clean ones too</button>
+  <button class="g-btn ghost" type="button" id="selClear">Cancel</button>
+</div>
+<main class="g-main" id="main" tabindex="-1"></main>
+<div class="g-drop" id="drop" hidden><div><strong>Drop the pictures here</strong><span>they are copied into your pictures folder (PNG, JPG, WebP, GIF, BMP)</span></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../shared/ui.js"></script>
+<script src="gallery.js"></script>
+</body>
+</html>

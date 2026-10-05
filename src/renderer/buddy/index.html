@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Desktop Buddy</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/buddy-look.css">
+<link rel="stylesheet" href="buddy.css">
+</head>
+<body>
+<!-- The buddy: the body (circle), the SVG face and the animation "props" (hand, Zzz, thought dots, sparkles).
+     State changes only through classes on #stage (see buddy.js and buddy.css). -->
+<div class="stage" id="stage">
+  <div class="ground" aria-hidden="true"></div>
+  <div class="bob">
+    <!-- body, face, hair and accessories are drawn by src/shared/buddy-look.js -->
+    <div class="buddy bl-body" id="buddy" role="button" aria-label="Desktop Buddy: click to open the window, drag to move, right-click for shortcuts"></div>
+  </div>
+
+  <svg class="hand" viewBox="0 0 24 24" aria-hidden="true">
+    <defs><linearGradient id="handFill" x1="0" y1="0" x2="1" y2="1"><stop class="hand-a" offset="0"/><stop class="hand-b" offset="1"/></linearGradient></defs>
+    <path d="M8 22.4C4.2 20.8 2.8 16.2 4.6 11.6L5.8 6.4C6.3 4.7 8.6 4.8 8.9 6.5L9.3 9.4 9.9 3.9C10.2 2.2 12.6 2.2 12.8 3.9L12.9 9 14 4.5C14.5 2.9 16.8 3.3 16.6 5L16 10.1 17.8 7.6C18.8 6.3 20.8 7.3 20.1 8.9L16.9 16.2C15.7 20 12.6 23.3 8 22.4Z"/>
+  </svg>
+  <div class="zzz" aria-hidden="true"><span>z</span><span>z</span><span>Z</span></div>
+  <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="sparkles" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="burst" aria-hidden="true"></div>
+  <!-- petting (stroke the buddy with the mouse): a small heart floats up next to its head -->
+  <!-- while recording: a flag next to the buddy, one click = "remember this moment" (shown by .stage.rec-on) -->
+  <button class="mark-flag" id="markFlag" type="button" aria-label="Remember this moment" title="Remember this moment">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4"/><path d="M6 4.5c3.5-2 6.5 2 10.5 0V12c-4 2-7-2-10.5 0"/></svg>
+  </button>
+  <svg class="pet-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.6-4.6-9.6-9.2C.9 8.3 3 4.6 6.6 4.6c2.1 0 3.6 1.2 4.4 2.6.8-1.4 2.3-2.6 4.4-2.6 3.6 0 5.7 3.7 4.2 7.2C19.6 16.4 12 21 12 21Z"/></svg>
+</div>
+<script src="../../shared/buddy-shapes.js"></script>
+<script src="../../shared/buddy-look.js"></script>
+<script src="buddy.js"></script>
+</body>
+</html>

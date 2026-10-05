@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Statistics – Desktop Buddy</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="stats.css">
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand"><span class="brand-dot" aria-hidden="true"></span>Statistics</div>
+    <div class="view-tabs" role="tablist" aria-label="Views">
+      <button type="button" role="tab" id="tabWorkdays" data-view="workdays" aria-controls="viewWorkdays" aria-selected="true">Day by day</button>
+      <button type="button" role="tab" id="tabRange" data-view="range" aria-controls="viewRange" aria-selected="false" tabindex="-1">Last 30 days</button>
+    </div>
+  </header>
+  <div class="app" id="viewWorkdays" role="tabpanel" aria-labelledby="tabWorkdays">
+    <aside class="days" aria-labelledby="daysTitle">
+      <header class="days-head">
+        <h1 id="daysTitle">All days</h1>
+        <p class="days-sum" id="daysSum"></p>
+      </header>
+      <ul class="day-list" id="dayList" aria-label="Days you worked"></ul>
+    </aside>
+    <main class="detail" id="detail" tabindex="-1" aria-live="polite"></main>
+  </div>
+  <section class="range" id="viewRange" role="tabpanel" aria-labelledby="tabRange" tabindex="-1" hidden></section>
+</div>
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<script src="../shared/ui.js"></script>
+<script src="stats.js"></script>
+</body>
+</html>

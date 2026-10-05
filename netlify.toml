@@ -1,0 +1,17 @@
+# Netlify: the presentation page + the web demo (scripts/build-site.js → site/).
+# The build needs no npm packages; skipping dev dependencies avoids downloading Electron.
+[build]
+  command = "node scripts/build-site.js"
+  publish = "site"
+
+[build.environment]
+  NPM_FLAGS = "--omit=dev"
+  ELECTRON_SKIP_BINARY_DOWNLOAD = "1"
+  NODE_VERSION = "20"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"

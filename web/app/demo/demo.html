@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Desktop Buddy Demo</title>
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+<div class="controls" role="toolbar" aria-label="Demo controls">
+  <span class="controls-label">Try:</span>
+  <button type="button" id="btnHour" title="Adds an hour of finished timer work: XP, level and statistics update">+1 hour of focus</button>
+  <button type="button" id="btnRemind" title="A note's reminder rings in 3 seconds">Ring a reminder</button>
+  <button type="button" id="btnReset" class="ghost" title="Forget everything you changed in the demo">Reset the demo</button>
+</div>
+
+<div class="stage" id="stage">
+  <div class="wallpaper" aria-hidden="true"></div>
+
+  <!-- a made-up app window: something to copy text from and to "record" -->
+  <section class="fake-window" id="fakeWindow" aria-label="Note Organizer (a sample app)">
+    <header class="fw-bar"><span>Note Organizer — v2.3</span><span class="fw-ctl" aria-hidden="true">— ☐ ✕</span></header>
+    <div class="fw-body">
+      <nav class="fw-side" aria-hidden="true"><b>All notes</b><span>Favorites</span><span>Reminders</span><span>Trash</span></nav>
+      <div class="fw-main">
+        <h2>Sprint notes</h2>
+        <p>Select any text here and press <kbd>Ctrl</kbd>+<kbd>C</kbd>: it shows up in the buddy's <b>Copied</b> tab.</p>
+        <p class="fw-quote">Phase 3: the water freezes and the boss slides.</p>
+        <p>Now try copying this fake API key: <code>sk-test-4f9aDEMO8x2Lq7Rk1Zp0Wv3Ns5Tc</code>. It is <b>not</b> saved: secrets never go into the history.</p>
+      </div>
+    </div>
+    <div class="fw-rec" aria-hidden="true">● Recording this window</div>
+  </section>
+
+  <iframe class="buddy-frame" id="buddyFrame" title="Desktop Buddy" allow="clipboard-write"></iframe>
+  <iframe class="panel-frame" id="panelFrame" title="Desktop Buddy panel" hidden allow="clipboard-write; clipboard-read"></iframe>
+
+  <div class="hint" id="hint" hidden>Click me! Drag me around, or stroke me with the mouse.</div>
+  <div class="menu" id="menu" role="menu" hidden></div>
+
+  <section class="win stats-win" id="statsWin" hidden aria-label="Statistics window">
+    <header class="win-bar"><span>Statistics – Desktop Buddy</span><button type="button" id="statsClose" aria-label="Close the statistics">✕</button></header>
+    <iframe id="statsFrame" title="Statistics"></iframe>
+  </section>
+
+  <div class="notifs" id="notifs" aria-live="polite"></div>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <div class="taskbar" aria-hidden="true"><span class="tb-start">⊞</span><span class="tb-app">Note Organizer</span><span class="tb-clock" id="clock"></span></div>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption><span class="lb-close">Click anywhere to close</span></figure>
+  </div>
+</div>
+<p class="narrow-note">The demo is a small desktop: it works best on a computer screen.</p>
+
+<script src="modules.js"></script>
+<script src="host.js"></script>
+<script src="clock.js"></script>
+</body>
+</html>

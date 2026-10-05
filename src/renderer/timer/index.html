@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Timer – Desktop Buddy</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="timer.css">
+</head>
+<body>
+<div class="bar" id="bar" data-state="idle">
+  <span class="state-dot" aria-hidden="true"></span>
+  <div class="info">
+    <div class="title-row">
+      <button class="title" id="title" type="button" title="Click to change the title · drag to move"></button>
+      <span class="tag" id="tag" hidden></span>
+    </div>
+    <div class="time" id="time" aria-live="off">0:00:00</div>
+  </div>
+  <div class="actions">
+    <button class="tbtn" id="toggle" type="button"></button>
+    <button class="tbtn" id="stop" type="button" aria-label="Stop the timer" title="Stop the timer" data-icon="stop"></button>
+    <!-- simple mode: hidden (opacity is in Settings, and the tray can hide the timer too) -->
+    <button class="tbtn adv" id="opacity" type="button" data-icon="contrast"></button>
+    <button class="tbtn adv" id="hide" type="button" aria-label="Hide the timer" title="Hide the timer (bring it back from the panel or the tray)" data-icon="eyeOff"></button>
+  </div>
+</div>
+<script src="../shared/ui.js"></script>
+<script src="timer.js"></script>
+</body>
+</html>

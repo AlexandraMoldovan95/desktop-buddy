@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src buddy-media:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Cut a clip – Desktop Buddy</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="editor.css">
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand"><span class="brand-dot" aria-hidden="true"></span>Cut a clip</div>
+    <div class="file" id="fileName"></div>
+    <button class="btn btn-ghost adv" id="showFile" type="button" data-icon="folder"><span>Show in folder</span></button>
+    <!-- simple mode: reveals the advanced controls of this window (not remembered) -->
+    <button class="btn btn-secondary ed-more" id="moreBtn" type="button" aria-expanded="false" title="More: repeat, play the clip, save all moments, a movie from several clips">More</button>
+  </header>
+
+  <main class="ed">
+    <section class="work" aria-label="Preview and trim">
+      <div class="stage"><video id="player" playsinline muted preload="auto"></video>
+        <!-- montage preview: the title and the fade, simulated over the player -->
+        <div class="stage-overlay" id="stageOverlay" hidden><span class="ov-title" id="ovTitle"></span></div>
+        <span class="ov-badge" id="ovBadge" hidden></span></div>
+
+      <div class="transport">
+        <button class="icon-btn icon-btn-primary" id="playBtn" type="button" aria-label="Play (Space)" title="Play / pause (Space)" data-icon="play"></button>
+        <button class="icon-btn loop-btn adv" id="loopBtn" type="button" aria-pressed="false" aria-label="Repeat (L)" title="Repeat (L)" data-icon="loop"></button>
+        <span class="time" id="timeNow">0:00</span><span class="muted time-sep">/</span><span class="muted time" id="timeTotal">0:00</span>
+        <span class="spacer"></span>
+        <span class="muted hint-keys adv">Space plays · ← → 1 s (Shift: 5 s) · I start · O end · M add to movie · L repeat</span>
+      </div>
+
+      <div class="timeline" id="timeline" role="slider" tabindex="0" aria-label="Position in the video" aria-valuemin="0">
+        <div class="tl-sel" id="tlSel"></div>
+        <div class="tl-parts" id="tlParts"></div>
+        <div class="tl-marks" id="tlMarks"></div>
+        <div class="tl-handle" id="hIn" title="Start (drag)"></div>
+        <div class="tl-handle" id="hOut" title="End (drag)"></div>
+        <div class="tl-head" id="tlHead"></div>
+      </div>
+
+      <div class="range-row">
+        <button class="btn btn-secondary" id="setIn" type="button">Start here <kbd>I</kbd></button>
+        <button class="btn btn-secondary" id="setOut" type="button">End here <kbd>O</kbd></button>
+        <span class="sel-info" id="selInfo"></span>
+        <span class="spacer"></span>
+        <button class="btn btn-ghost adv" id="playSel" type="button" data-icon="play"><span>Play the clip</span></button>
+        <button class="btn btn-secondary adv" id="addToMontage" type="button" data-icon="plus" title="Add the chosen clip to the movie (M)"><span>Add to movie</span></button>
+        <button class="btn btn-primary" id="exportSel" type="button" data-icon="cut" title="Saves the clip between the two handles as a new video"><span>Save this clip</span></button>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="card" aria-labelledby="marksTitle">
+        <div class="card-head"><h2 id="marksTitle">Marked moments</h2><span class="muted" id="marksCount"></span></div>
+        <ul class="marks" id="marksList"></ul>
+        <button class="btn btn-secondary adv" id="exportMarks" type="button" data-icon="cut"><span>Save all moments</span></button>
+      </section>
+      <section class="card adv" aria-labelledby="montTitleH">
+        <div class="card-head"><h2 id="montTitleH">Movie from several clips</h2><span class="mont-head"><span class="muted" id="montSum"></span>
+          <button class="link-btn" id="montClear" type="button" hidden>Clear</button><button class="link-btn" id="montUndo" type="button" hidden>Undo</button></span></div>
+        <ol class="mont-list" id="montList"></ol>
+        <div class="mont-row">
+          <button class="btn btn-secondary btn-sm" id="montAddSel" type="button" data-icon="plus"><span>Chosen clip</span></button>
+          <button class="btn btn-secondary btn-sm" id="montAddMarks" type="button" data-icon="flag"><span>All moments</span></button>
+        </div>
+        <label class="mont-check"><input type="checkbox" id="montFade"> Smooth change between clips</label>
+        <label class="mont-field"><span>A title at the start <span class="muted">(if you want)</span></span>
+          <input type="text" id="montTitle" maxlength="60" autocomplete="off" spellcheck="false" placeholder="e.g. My app · first test"></label>
+        <div class="mont-row">
+          <button class="btn btn-secondary btn-sm" id="montPlay" type="button" data-icon="play"><span>Watch the movie</span></button>
+          <button class="btn btn-primary btn-sm" id="montMp4" type="button" data-icon="film"><span>Save the movie</span></button>
+          <span class="muted small mont-note" id="montNote"></span>
+        </div>
+      </section>
+      <section class="card" aria-labelledby="queueTitle" id="queueCard" hidden>
+        <div class="card-head"><h2 id="queueTitle">Saving</h2></div>
+        <p class="muted small adv">The clip is played and recorded again, so saving takes as long as the clip. You can use other windows meanwhile.</p>
+        <ul class="jobs" id="jobs"></ul>
+      </section>
+      <section class="card" aria-labelledby="clipsTitle">
+        <div class="card-head"><h2 id="clipsTitle">Your clips</h2></div>
+        <p class="muted small">Saved next to your video, in the "clips" folder.</p>
+        <ul class="jobs" id="clipsList"></ul>
+      </section>
+    </aside>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<video id="exporter" muted playsinline preload="auto" crossorigin="anonymous" hidden></video>
+<script src="../shared/ui.js"></script>
+<script src="../../shared/montage.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>

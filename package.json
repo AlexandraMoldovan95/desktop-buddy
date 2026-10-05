@@ -1,0 +1,71 @@
+{
+  "name": "desktop-buddy-portfolio",
+  "productName": "Desktop Buddy Portfolio",
+  "version": "1.16.1",
+  "description": "Portfolio edition of Desktop Buddy: a Windows desktop companion with an animated, customizable buddy, focus sessions, statistics, a safe clipboard history, email, and automatic window recording with a clip editor.",
+  "main": "src/main/main.js",
+  "author": "Desktop Buddy",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "demo": "node scripts/demo.js",
+    "site": "node scripts/build-site.js",
+    "test": "node --test",
+    "lint": "eslint .",
+    "dist": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "electron": "44.4.5",
+    "electron-builder": "26.15.3",
+    "eslint": "10.12.0",
+    "globals": "17.13.0"
+  },
+  "build": {
+    "appId": "ro.stepit.desktopbuddy.portfolio",
+    "productName": "Desktop Buddy Portfolio",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "package.json",
+      "!**/*.map"
+    ],
+    "electronFuses": {
+      "runAsNode": false,
+      "enableNodeOptionsEnvironmentVariable": false,
+      "enableNodeCliInspectArguments": false,
+      "enableEmbeddedAsarIntegrityValidation": true,
+      "onlyLoadAppFromAsar": true,
+      "enableCookieEncryption": true
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Desktop Buddy Portfolio",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "runAfterFinish": true
+    }
+  },
+  "dependencies": {
+    "nodemailer": "10.0.13"
+  }
+}

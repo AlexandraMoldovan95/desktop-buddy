@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Desktop Buddy</title>
+<meta name="description" content="A small Windows companion that records only the app you are testing and turns the run into short MP4 clips. Try the buddy in your browser.">
+<link rel="icon" href="media/icon.png">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#"><img src="media/icon.png" alt="" width="28" height="28">Desktop Buddy</a>
+  <nav aria-label="Sections">
+    <a href="#demo">Live demo</a>
+    <a href="#features">Features</a>
+    <a href="#role">My role</a>
+    <a class="repo-link" href="#" hidden>GitHub</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Windows desktop app · Electron · <span class="version"></span></p>
+      <h1>A desktop buddy that films your app tests for you</h1>
+      <p class="lead">It records <b>only the app you are testing</b>, starts and stops by itself, and turns the run into <b>short MP4 clips</b> for a portfolio. Plus a focus timer with statistics, notes with reminders, a clipboard history that skips secrets, and screenshots you can draw on. Works offline.</p>
+      <div class="cta">
+        <a class="btn primary" href="#demo">Try it in your browser</a>
+        <a class="btn repo-link" href="#" hidden>Code on GitHub</a>
+        <a class="btn download-link" href="#" hidden>Download for Windows</a>
+      </div>
+      <ul class="facts">
+        <li><b>294</b> unit tests</li>
+        <li><b>72</b> manual test cases, all passed</li>
+        <li><b>~145</b> audit findings fixed</li>
+      </ul>
+    </div>
+    <img class="hero-img" src="media/hero.png" alt="The buddy with its recording flag, the panel while recording, and the 30-day statistics" width="1677" height="866">
+  </section>
+
+  <section class="demo" id="demo" aria-labelledby="demo-title">
+    <div class="section-head">
+      <h2 id="demo-title">Play with it</h2>
+      <p>This is the app's <b>real interface</b>, running in your browser on made-up data. <b>Click the buddy</b> to open it, drag it around, stroke it with the mouse, right-click it. Record the sample window, start the timer, write a note, change the buddy's look. Nothing leaves your browser.</p>
+    </div>
+    <div class="demo-frame">
+      <iframe src="app/demo/demo.html" title="Desktop Buddy live demo" loading="lazy" allow="clipboard-write; clipboard-read"></iframe>
+    </div>
+    <p class="demo-note">In the desktop app the buddy floats over all your windows and the recorder really captures them. A browser can't do either, so here they are simulated; everything else is the same code as the app.</p>
+  </section>
+
+  <section class="features" id="features" aria-labelledby="features-title">
+    <div class="section-head"><h2 id="features-title">What it does</h2></div>
+    <article class="feature">
+      <img src="media/editor-montage.png" alt="The clip editor on a real recording, with three marked moments on the timeline" loading="lazy">
+      <div>
+        <h3>Records one window, not the screen</h3>
+        <p>Tell it <i>"record any window whose title contains Note Organizer"</i>. It starts when the window opens, stops when it closes, joins quick relaunches into one file and skips the idle parts. Mark good moments with one click on the buddy, then cut clips or a short movie in the built-in editor, without ffmpeg.</p>
+      </div>
+    </article>
+    <article class="feature">
+      <img src="media/stats-30-days.png" alt="Statistics: the last 30 days as a calendar heatmap and the most used apps" loading="lazy">
+      <div>
+        <h3>A focus timer with honest statistics</h3>
+        <p>Time your work, see each day's timeline and the last 30 days, with the apps you used. Pauses, sleep and clock changes never count as work.</p>
+      </div>
+    </article>
+    <article class="feature">
+      <img src="media/buddy-shapes.png" alt="The 27 buddy shapes" loading="lazy">
+      <div>
+        <h3>A buddy that grows</h3>
+        <p>Every timer minute is XP. Levels unlock 72 rewards: 27 shapes, colours, eyes, hats and effects. It waves, falls asleep, follows your mouse and giggles when you pet it.</p>
+      </div>
+    </article>
+    <article class="feature">
+      <img src="media/screenshot-annotate.png" alt="Drawing on a screenshot: blur, boxes, a sticky note and a speech bubble" loading="lazy">
+      <div>
+        <h3>Everyday tools</h3>
+        <p>Screenshots you can draw on and blur, notes with checklists and reminders, a clipboard history that never saves passwords or API keys, and send-only email through your own account.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="role" id="role" aria-labelledby="role-title">
+    <div class="section-head"><h2 id="role-title">My role</h2></div>
+    <div class="role-grid">
+      <div class="card">
+        <h3>Product and design</h3>
+        <p>I picked the problem (filming AI test runs of my own apps), wrote the specs and made the UX calls: match windows by <b>title</b>, screenshots from <b>buttons only</b>, a <b>simple mode</b> and a first-run tour for beginners, and cutting features that didn't earn their place (GIF export, the spellchecker, an unfinished AI tab).</p>
+      </div>
+      <div class="card">
+        <h3>Quality</h3>
+        <p>Two rounds of adversarial audits with parallel AI reviewers (robustness, security, performance on a 4 GB PC, beginner UX) found about 140 issues, and a third confirmation round found no serious ones; each fix came with a test. Then a manual test plan in standard QA format: <b>72 test cases</b> and a defect log, all run on Windows.</p>
+      </div>
+      <div class="card">
+        <h3>How it was built</h3>
+        <p>The code was written in pair-programming with an AI assistant (Claude). Vanilla JavaScript on Electron, no framework, strict security (sandboxed pages, no network except sending email), and logic kept in small tested modules. That is also why this demo can run the app's real pages.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Desktop Buddy · MIT licence<span class="repo-link-wrap" hidden> · <a class="repo-link" href="#">Source code</a></span></p>
+</footer>
+<script src="site-info.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

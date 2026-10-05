@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Take a picture – Desktop Buddy</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="shot.css">
+</head>
+<body class="overlay">
+<!-- The frozen screen (captured just before), dimmed; drag an area. Esc / right-click = cancel. -->
+<img id="frame" alt="" draggable="false">
+<div id="dim"></div>
+<div id="sel" hidden><span id="size"></span></div>
+<div class="bar" id="bar">
+  <span>Drag the mouse over what you want in the picture</span><span class="sep">·</span><span><kbd>Esc</kbd> = cancel</span>
+  <button id="toWindow" type="button">A whole window…</button>
+</div>
+<script src="overlay.js"></script>
+</body>
+</html>
