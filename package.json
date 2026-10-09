@@ -6,6 +6,11 @@
   "main": "src/main/main.js",
   "author": "Desktop Buddy",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlexandraMoldovan95/desktop-buddy"
+  },
+  "homepage": "https://desktop-buddy-demo.netlify.app",
   "private": true,
   "scripts": {
     "start": "electron .",
