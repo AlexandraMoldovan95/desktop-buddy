@@ -17,3 +17,6 @@ desktop.ini
 .DS_Store
 .vscode/
 .idea/
+
+# Netlify CLI local state
+.netlify/
