@@ -73,6 +73,8 @@ npm run lint     # ESLint (also runs in CI before the tests)
 npm run dist     # build the installer: dist/Desktop Buddy Portfolio Setup 1.16.1.exe
 ```
 
+On a Windows machine without Developer Mode (or admin rights), 3 of the 294 tests fail with `EPERM`: they create a symlink to check that the app refuses it, and Windows doesn't let them create one. CI on GitHub's Windows runner can, and passes all 294.
+
 The installer isn't code-signed: SmartScreen asks once (*More info → Run anyway*). To record, open the **Video** tab → *Record a window*.
 
 ## How it was built
