@@ -23,7 +23,7 @@
 |---|---|
 | **What** | Desktop app for Windows 10/11 · Electron 44, vanilla JavaScript (no framework, no bundler) · MIT |
 | **My role** | Product idea, UX and visual design, feature specs, QA (72 test cases, defect log) and the audits. The code was written in pair-programming with an AI assistant (Claude): see [How it was built](#how-it-was-built). |
-| **Quality** | 294 unit tests · ESLint + CI on Windows (GitHub Actions) · 72 manual test cases, all passed on Windows · three audit rounds, ~145 issues fixed (the last round found no critical or high issues) |
+| **Quality** | 294 unit tests · ESLint + CI on Windows (GitHub Actions) · 72 test cases, all passed (48 run by hand on Windows, 24 automated) · three audit rounds, ~145 issues fixed (the last round found no critical or high issues) |
 | **Status** | v1.16.1 · English UI with a beginner **simple mode** and a first-run tour · not code-signed, so SmartScreen asks once |
 
 ## Why it exists
