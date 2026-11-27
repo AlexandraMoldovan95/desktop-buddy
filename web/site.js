@@ -9,3 +9,27 @@
     for (const a of document.querySelectorAll('.download-link')) { a.href = `${info.repo}/releases/latest`; a.hidden = false; }
   }
 })();
+
+// The dark/light theme button: switches the theme and saves the choice in this browser
+// (theme-init.js applies it on the next visit). With nothing saved, the system setting decides.
+(function () {
+  const btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  const root = document.documentElement;
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const isDark = () => (root.getAttribute('data-theme') || (systemDark.matches ? 'dark' : 'light')) === 'dark';
+  const sync = () => btn.setAttribute('aria-pressed', String(isDark()));
+  sync();
+  btn.addEventListener('click', () => {
+    const next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try {
+      localStorage.setItem('db-theme', next);
+    } catch {
+      // Not saved (storage blocked): the choice lasts for this visit.
+    }
+    sync();
+  });
+  // Nothing saved and the system switches while the page is open: keep the button's state right.
+  systemDark.addEventListener('change', sync);
+})();
