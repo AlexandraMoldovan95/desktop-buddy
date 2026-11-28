@@ -2,10 +2,11 @@
 
 All notable changes to Desktop Buddy (Portfolio Edition). Dates are day.month.year.
 
-## Unreleased (28.11.2026)
+## 1.16.2 (28.11.2026)
 
+- Security updates for Dependabot alerts: **Electron 44.11.5** (was 44.4.5) and **nodemailer 10.6.1** (was 10.0.13), inside the same major versions (24.11.2026).
 - The **picture window** (the large picture and its drawing tools) follows the light or dark theme like the other windows; it was always dark. Its colours are now theme tokens in `view.css`, and every text in its bars passes 4.5:1 in both themes (the lowest is 5.37:1). The window opens with the background of the current theme, so it never flashes the other one. The drawings themselves keep their own colours.
-- Presentation page: the hero, the clip editor and the drawing pictures each have a light and a dark version, and the page shows the one that matches its theme. A comment after a dark rule no longer breaks the web demo's Statistics layout in the light theme (`build-site.js`; a test covers it).
+- Presentation page: the hero, the clip editor and the drawing pictures each have a light and a dark version, and the page shows the one that matches its theme. A comment after a dark rule no longer breaks the web demo's Statistics layout in the light theme (`build-site.js`; a test covers it). 295 unit tests.
 
 ## 1.16.1 (05.10.2026)
 

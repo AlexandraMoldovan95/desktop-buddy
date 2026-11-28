@@ -1,7 +1,7 @@
 {
   "name": "desktop-buddy-portfolio",
   "productName": "Desktop Buddy Portfolio",
-  "version": "1.16.1",
+  "version": "1.16.2",
   "description": "Portfolio edition of Desktop Buddy: a Windows desktop companion with an animated, customizable buddy, focus sessions, statistics, a safe clipboard history, email, and automatic window recording with a clip editor.",
   "main": "src/main/main.js",
   "author": "Desktop Buddy",

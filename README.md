@@ -23,8 +23,8 @@
 |---|---|
 | **What** | Desktop app for Windows 10/11 · Electron 44, vanilla JavaScript (no framework, no bundler) · MIT |
 | **My role** | Product idea, UX and visual design, feature specs, QA (72 test cases, defect log) and the audits. The code was written in pair-programming with an AI assistant (Claude): see [How it was built](#how-it-was-built). |
-| **Quality** | 294 unit tests · ESLint + CI on Windows (GitHub Actions) · 72 test cases, all passed (48 run by hand on Windows, 24 automated) · three audit rounds, ~145 issues fixed (the last round found no critical or high issues) |
-| **Status** | v1.16.1 · English UI with a beginner **simple mode** and a first-run tour · not code-signed, so SmartScreen asks once |
+| **Quality** | 295 unit tests · ESLint + CI on Windows (GitHub Actions) · 72 test cases, all passed (48 run by hand on Windows, 24 automated) · three audit rounds, ~145 issues fixed (the last round found no critical or high issues) |
+| **Status** | v1.16.2 · English UI with a beginner **simple mode** and a first-run tour · not code-signed, so SmartScreen asks once |
 
 ## Why it exists
 
@@ -68,12 +68,12 @@ npm install      # Electron, electron-builder, nodemailer
 npm start        # run in development
 npm run demo     # run on 30 days of made-up data (for screenshots; real data untouched)
 npm run site     # build the presentation page + the live web demo into site/ (for Netlify)
-npm test         # 294 unit tests
+npm test         # 295 unit tests
 npm run lint     # ESLint (also runs in CI before the tests)
-npm run dist     # build the installer: dist/Desktop Buddy Portfolio Setup 1.16.1.exe
+npm run dist     # build the installer: dist/Desktop Buddy Portfolio Setup 1.16.2.exe
 ```
 
-On a Windows machine without Developer Mode (or admin rights), 3 of the 294 tests fail with `EPERM`: they create a symlink to check that the app refuses it, and Windows doesn't let them create one. CI on GitHub's Windows runner can, and passes all 294.
+On a Windows machine without Developer Mode (or admin rights), 3 of the 295 tests fail with `EPERM`: they create a symlink to check that the app refuses it, and Windows doesn't let them create one. CI on GitHub's Windows runner can, and passes all 295.
 
 The installer isn't code-signed: SmartScreen asks once (*More info → Run anyway*). To record, open the **Video** tab → *Record a window*.
 
