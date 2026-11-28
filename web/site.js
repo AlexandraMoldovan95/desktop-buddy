@@ -33,3 +33,29 @@
   // Nothing saved and the system switches while the page is open: keep the button's state right.
   systemDark.addEventListener('change', sync);
 })();
+
+// "Back to top": shown only on a page at least two screens tall, after half a screen of scrolling
+// (at the top, or on a short page, it would only be in the way). Checked again on scroll, resize and
+// any change in the page's height (the pictures load lazily). A click scrolls up (instantly with
+// reduced motion) and puts keyboard focus on the brand link, at the top.
+(function () {
+  const btn = document.getElementById('toTop');
+  if (!btn) return;
+  const shouldShow = (y, vh, ph) => ph >= vh * 2 && y >= vh / 2;
+  let queued = false;
+  const update = () => {
+    queued = false;
+    btn.classList.toggle('is-shown', shouldShow(window.scrollY, window.innerHeight, document.documentElement.scrollHeight));
+  };
+  const queue = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+  window.addEventListener('scroll', queue, { passive: true });
+  window.addEventListener('resize', queue);
+  if ('ResizeObserver' in window) new ResizeObserver(queue).observe(document.body);
+  btn.addEventListener('click', () => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    const first = document.querySelector('.brand');
+    if (first) first.focus({ preventScroll: true });
+  });
+  update();
+})();
