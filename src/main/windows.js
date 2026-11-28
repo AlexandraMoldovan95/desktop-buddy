@@ -817,7 +817,8 @@ function createWindows({ getSettings, saveBuddyPos, saveTimerPos, hasSession, on
       minHeight: 300,
       show: false,
       autoHideMenuBar: true,
-      backgroundColor: '#1B1A22',
+      // the view's --v-bg in each theme (view.css), so opening it never flashes the other theme
+      backgroundColor: nativeTheme.shouldUseDarkColors ? '#1B1A22' : '#E6E6EE',
       title: 'Picture – Desktop Buddy',
       icon: ICON,
       webPreferences: securePrefs('shotview.js'),

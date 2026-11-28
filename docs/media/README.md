@@ -10,7 +10,7 @@ Images used by the main README and `docs/FEATURES.md`.
 | `stats-30-days.png` | Statistics → Last 30 days | Windows screenshot, demo data |
 | `panels-progress.png` | Time tab level card + *How the buddy looks* with locked shapes, dark theme | Windows screenshots, demo data |
 | `screenshot-gallery.png` | the Pictures gallery | Windows screenshot |
-| `screenshot-annotate.png` | drawing on a screenshot | Windows screenshot |
+| `screenshot-annotate.png` / `screenshot-annotate-light.png` | drawing on a screenshot (blur, a box, an ellipse, a sticky note, a speech bubble), dark / light theme (the presentation page shows the one that matches its theme) | the picture window's own content (no title bar), captured like the clip editor above; the drawings are the demo picture's saved drawings |
 | `notes-checklist-reminders.png` | a checklist note, the reminder card, a reminder that went off (Snooze / Done), dark theme | Windows screenshots |
 | `buddy-grow.png` | level-up frame (golden ring) + two unlocked looks | automated render |
 | `buddy-idle-recording.png` | the buddy, idle and while recording | automated render |
