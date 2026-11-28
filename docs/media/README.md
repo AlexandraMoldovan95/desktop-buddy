@@ -4,7 +4,7 @@ Images used by the main README and `docs/FEATURES.md`.
 
 | File | What it shows | Source |
 |---|---|---|
-| `hero.png` | the buddy + the panel while recording + Last 30 days | composite of Windows screenshots |
+| `hero.png` / `hero-light.png` | the buddy + the panel while recording + Last 30 days, dark / light theme (the presentation page shows the one that matches its theme) | composite of the web demo (`npm run site`, served over http): its desktop with the buddy and the panel during a simulated recording, and its Statistics window, captured in headless Edge with the theme emulated |
 | `panel-video.png` | Video tab during a recording, with *Remember this moment* | Windows screenshot |
 | `editor-montage.png` / `editor-montage-light.png` | clip editor with three marked moments, dark / light theme (the presentation page shows the one that matches its theme) | the window's own content (no title bar), captured through the DevTools protocol with the theme emulated, from `npm start` on `_demo-data` with `--remote-debugging-port`; a real recording of a test app |
 | `stats-30-days.png` | Statistics → Last 30 days | Windows screenshot, demo data |

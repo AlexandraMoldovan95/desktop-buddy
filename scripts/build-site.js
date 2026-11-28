@@ -29,16 +29,38 @@ function copyDir(from, to, filter = () => true) {
 // ------------------------------------------------ 1. the pages, unchanged + the shim
 const PAGES = ['buddy', 'panel', 'stats'];
 
-/** Dark rules also apply on [data-theme="dark"] and stop on [data-theme="light"], so the Theme setting works in a browser. */
+/**
+ * Dark rules also apply on [data-theme="dark"] and stop on [data-theme="light"], so the Theme setting works in a browser.
+ * Each "@media (prefers-color-scheme: dark) {" block is found by counting its braces (comments skipped), not with a
+ * regular expression: a comment after a rule's closing brace (stats.css: `:root { ... } /* 5.1:1 *\/`) made the old
+ * pattern run on to a later "}" and pull the layout rules after it (.range, .cal...) into the dark block, so the
+ * Statistics window of the web demo lost its layout in the light theme.
+ */
 function themeCss(css) {
-  return css.replace(/@media \(prefers-color-scheme: dark\) \{([\s\S]*?\})\s*\}/g, (all, body) => {
+  const OPEN = '@media (prefers-color-scheme: dark) {';
+  const pre = (sel, root) => sel.split(',').map((x) => x.trim()).map((x) => (x.startsWith(':root') ? root + x.slice(5) : `${root} ${x}`)).join(', ');
+  let out = '';
+  let i = 0;
+  for (;;) {
+    const start = css.indexOf(OPEN, i);
+    if (start < 0) return out + css.slice(i);
+    out += css.slice(i, start);
+    let depth = 1;
+    let j = start + OPEN.length;
+    while (j < css.length && depth > 0) {
+      if (css.startsWith('/*', j)) { const end = css.indexOf('*/', j + 2); j = end < 0 ? css.length : end + 2; continue; }
+      if (css[j] === '{') depth++;
+      else if (css[j] === '}') depth--;
+      j++;
+    }
+    const body = css.slice(start + OPEN.length, j - 1).replace(/\/\*[\s\S]*?\*\//g, '');
     const rules = [...body.matchAll(/([^{}]+)\{([^{}]*)\}/g)];
-    if (!rules.length) return all;
-    const pre = (sel, root) => sel.split(',').map((x) => x.trim()).map((x) => (x.startsWith(':root') ? root + x.slice(5) : `${root} ${x}`)).join(', ');
+    if (!rules.length) { out += css.slice(start, j); i = j; continue; }
     const inMedia = rules.map(([, sel, decl]) => `${pre(sel, ':root:not([data-theme="light"])')} {${decl}}`).join('\n');
     const forced = rules.map(([, sel, decl]) => `${pre(sel, ':root[data-theme="dark"]')} {${decl}}`).join('\n');
-    return `@media (prefers-color-scheme: dark) {\n${inMedia}\n}\n${forced}`;
-  });
+    out += `@media (prefers-color-scheme: dark) {\n${inMedia}\n}\n${forced}`;
+    i = j;
+  }
 }
 
 function copyPages() {
@@ -168,7 +190,7 @@ function bundle() {
 function copyWeb() {
   copyDir(path.join(ROOT, 'web'), OUT);
   // the pictures shown on the presentation page
-  const media = ['hero.png', 'editor-montage.png', 'editor-montage-light.png', 'screenshot-annotate.png', 'buddy-shapes.png', 'stats-30-days.png', 'notes-checklist-reminders.png', 'panels-progress.png', 'screenshot-gallery.png'];
+  const media = ['hero.png', 'hero-light.png', 'editor-montage.png', 'editor-montage-light.png', 'screenshot-annotate.png', 'buddy-shapes.png', 'stats-30-days.png', 'notes-checklist-reminders.png', 'panels-progress.png', 'screenshot-gallery.png'];
   fs.mkdirSync(path.join(OUT, 'media'), { recursive: true });
   for (const m of media) fs.copyFileSync(path.join(ROOT, 'docs', 'media', m), path.join(OUT, 'media', m));
   fs.copyFileSync(path.join(ROOT, 'src', 'assets', 'icon.png'), path.join(OUT, 'media', 'icon.png'));

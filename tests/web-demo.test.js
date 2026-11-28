@@ -50,6 +50,16 @@ test('the Theme setting reaches the pages: dark rules also apply on [data-theme=
   assert.match(css, /:root\[data-theme="dark"\] \.x \{ color: red; \}/);
 });
 
+test('a comment after a dark rule does not pull the next rules into the dark block', () => {
+  // stats.css has `:root { --heat-4-text: ... } /* 5.1:1 ... */` in its dark block; the old pattern ran on past it and
+  // made .range / .cal dark-only, so the web demo's Statistics window had no layout in the light theme.
+  const css = site.themeCss('@media (prefers-color-scheme: dark) {\n  :root { --t: #000; } /* 5.1:1 */\n}\n.range { overflow-y: auto; }\n.cal { display: grid; }\n@media (max-width: 9px) {\n  .cal { display: block; }\n}');
+  assert.match(css, /\n\.range \{ overflow-y: auto; \}\n\.cal \{ display: grid; \}/, 'the layout rules stay outside the dark block, unchanged');
+  assert.doesNotMatch(css, /data-theme[^{]*\.range|data-theme[^{]*\.cal/, 'no theme prefix on the layout rules');
+  assert.match(css, /:root:not\(\[data-theme="light"\]\) \{ --t: #000; \}/);
+  assert.match(css, /:root\[data-theme="dark"\] \{ --t: #000; \}/);
+});
+
 test('demo data: 30 days, nothing in the future', () => {
   const DD = require('../scripts/demo-data');
   const now = Date.now();
