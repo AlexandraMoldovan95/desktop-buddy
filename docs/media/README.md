@@ -6,7 +6,7 @@ Images used by the main README and `docs/FEATURES.md`.
 |---|---|---|
 | `hero.png` | the buddy + the panel while recording + Last 30 days | composite of Windows screenshots |
 | `panel-video.png` | Video tab during a recording, with *Remember this moment* | Windows screenshot |
-| `editor-montage.png` | clip editor with three marked moments, dark theme | Windows screenshot, a real recording of a test app |
+| `editor-montage.png` / `editor-montage-light.png` | clip editor with three marked moments, dark / light theme (the presentation page shows the one that matches its theme) | the window's own content (no title bar), captured through the DevTools protocol with the theme emulated, from `npm start` on `_demo-data` with `--remote-debugging-port`; a real recording of a test app |
 | `stats-30-days.png` | Statistics → Last 30 days | Windows screenshot, demo data |
 | `panels-progress.png` | Time tab level card + *How the buddy looks* with locked shapes, dark theme | Windows screenshots, demo data |
 | `screenshot-gallery.png` | the Pictures gallery | Windows screenshot |

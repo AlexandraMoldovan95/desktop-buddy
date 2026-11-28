@@ -87,6 +87,13 @@ section { padding: 32px 0; }
 .feature { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
 .feature:nth-of-type(even) img { order: 2; }
 .feature img { border-radius: 10px; border: 1px solid var(--line); }
+/* A picture with a light and a dark version (the clip editor has both themes in the app): the one
+   that doesn't match the page's theme is hidden, and with loading="lazy" never downloaded. The
+   theme is the saved choice (data-theme) or, with nothing saved, the system setting. */
+:root[data-theme="light"] .shot-dark,
+:root[data-theme="dark"] .shot-light { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) .shot-light { display: none; } }
+@media not (prefers-color-scheme: dark) { :root:not([data-theme]) .shot-dark { display: none; } }
 .feature h3 { margin: 0 0 8px; font-size: 22px; }
 .feature p { margin: 0; color: var(--muted); }
 

@@ -168,7 +168,7 @@ function bundle() {
 function copyWeb() {
   copyDir(path.join(ROOT, 'web'), OUT);
   // the pictures shown on the presentation page
-  const media = ['hero.png', 'editor-montage.png', 'screenshot-annotate.png', 'buddy-shapes.png', 'stats-30-days.png', 'notes-checklist-reminders.png', 'panels-progress.png', 'screenshot-gallery.png'];
+  const media = ['hero.png', 'editor-montage.png', 'editor-montage-light.png', 'screenshot-annotate.png', 'buddy-shapes.png', 'stats-30-days.png', 'notes-checklist-reminders.png', 'panels-progress.png', 'screenshot-gallery.png'];
   fs.mkdirSync(path.join(OUT, 'media'), { recursive: true });
   for (const m of media) fs.copyFileSync(path.join(ROOT, 'docs', 'media', m), path.join(OUT, 'media', m));
   fs.copyFileSync(path.join(ROOT, 'src', 'assets', 'icon.png'), path.join(OUT, 'media', 'icon.png'));
